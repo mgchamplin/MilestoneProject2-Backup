@@ -1,27 +1,25 @@
 const Def = require('./default')
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
 
-
-
-function get_one (site) {
-    console.log("get-one.jsx for " + site.name)
+function get_one (data) {
+    console.log("get-one.jsx for " + data.site.name)
     return (
       <Def>
         <Card className="one-card-show">
             
-            <Card.Title>{site.name}</Card.Title>
+            <Card.Title>{data.site.name}</Card.Title>
 
-            <Card.Img src={'.'+site.image}/>
+            <Card.Img src={'.'+data.site.image}/>
 
             <Card.Text>
-              {site.city}, {site.state}
+              {data.site.city}, {data.site.state} <br></br>
+              {data.site.years} years of Service
             </Card.Text>
             
             <div className="button-group">
-              <a href={`/site/${site.id}/edit`} className="edit-button btn btn-primary btn-space">Edit</a>
-              <form method="POST" action={`/site/${site.id}?_method=DELETE`}> 
+              <a href={`/site/${data.site._id}/edit`} className="edit-button btn btn-primary btn-space">Edit</a>
+              <form method="POST" action={`/site/${data.site._id}?_method=DELETE`}> 
                   <button type="submit" className="delete-button bi bi-trash btn btn-space">Delete</button>
               </form> 
             </div>
@@ -31,9 +29,3 @@ function get_one (site) {
   }
 
 module.exports = get_one
-
-/*
-<form method="POST" action={`/site/${site.id}?_method=DELETE`}> 
-                  <button type="submit" className="bi bi-trash btn btn-danger btn-space">DELETE</button>
-              </form>
-*/
