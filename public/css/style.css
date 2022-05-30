@@ -1,0 +1,71 @@
+h1 {
+  text-align: center;
+  color: black;
+  font-size: 2em;
+}
+
+h2 {
+  text-align: center;
+  text-decoration: underline;
+  color: rgb(85, 82, 82);
+  font-size: 1.3em;
+}
+
+.cards-list {
+  flex-wrap:wrap;
+  margin-left:3em;
+  margin-right:auto;
+}
+
+.card-link {
+  text-align: center;
+  text-decoration: underline;
+  color:green;
+  font-size: 1.2em;
+}
+
+.card-style {
+  margin: 1em 1em 1em 1em;
+  width: 18rem;
+}
+
+.one-card-show {
+  margin-left:auto;
+  margin-right:auto;
+  text-align: center;
+  width:50%;
+}
+
+.form_container {
+  width: 50%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.one-card-button {
+  margin-left:1em;
+  margin-right:1em;
+}
+
+.delete-button {
+  width:100%;
+  background-color:red;
+  color:white;
+  margin-left: 1em;
+}
+
+.edit-button {
+  width:18%;
+  background-color:rgb(62, 100, 202);
+  color:white;
+  margin-left: 1em;
+
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-left: 35%;
+}
