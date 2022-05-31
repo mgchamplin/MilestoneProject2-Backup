@@ -1,8 +1,8 @@
 const React = require('react')
 const Def = require('./default')
 
-function get_new_form () {
-    console.log("get_new_form.jsx")
+function get_new_site_form () {
+    console.log("get_new_site_form.jsx")
     return (
       <Def>
           <main>
@@ -41,4 +41,4 @@ function get_new_form () {
     )
   }
 
-module.exports = get_new_form
+module.exports = get_new_site_form
