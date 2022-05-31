@@ -13,6 +13,8 @@ h2 {
 
 .cards-list {
   flex-wrap:wrap;
+  justify-content: center;
+  align-items: start;
   margin-left:3em;
   margin-right:auto;
 }
@@ -34,6 +36,7 @@ h2 {
   margin-right:auto;
   text-align: center;
   width:50%;
+  border: 4px solid rgb(62, 100, 202);
 }
 
 .form_container {
@@ -49,23 +52,21 @@ h2 {
 }
 
 .delete-button {
-  width:85%;
   background-color:red;
   color:white;
   margin-left: 1em;
+  min-width: 5em;
 }
 
 .edit-button {
-  width:18%;
   background-color:rgb(62, 100, 202);
   color:white;
   margin-left: 1em;
+  min-width: 5em;
 
 }
 
 .button-group {
   display: flex;
-  align-items: center;
-  text-align: center;
-  margin-left: 35%;
+  justify-content:center;
 }
