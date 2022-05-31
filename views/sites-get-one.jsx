@@ -4,6 +4,36 @@ import Card from 'react-bootstrap/Card'
 
 function get_one (data) {
     console.log("get-one.jsx for " + data.site.name)
+    console.log("   Reviews = " + data.site.reviews.length)
+
+    let review_list = (
+      <h3 className="inactive">No Reviews Yet - Be The First!</h3>
+    )
+    let rating = (<h3 className="inactive">No reviews yet! &ensp; Be the first!!</h3>)
+
+    if (data.site.reviews.length) {
+      review_list = data.site.reviews.map(c => {
+        let stars = "";
+        for (let i=0; i < c.stars; i++)
+            stars += '⭐'
+        console.log("#star=" + c.stars + `  ${stars}`)
+  
+        return (
+          <div>
+            <div className="review-header">
+              <p>Reviewed by {c.reviewer}: {c.date}  </p>
+              <p>Rating: {stars}</p>
+            </div>
+          <p className="review-data">{c.review}</p>
+          <hr></hr>
+          </div>
+        )
+      })
+      let sumRatings = data.site.reviews.reduce((tot, c) => {return tot + c.stars}, 0)
+
+      let averageRating = Math.round(sumRatings / data.site.reviews.length)
+    }
+
     return (
       <Def>
         <br></br>
@@ -24,11 +54,21 @@ function get_one (data) {
               </form> 
             </div>
         </Card>
+        <Card className="one-card-show">
+          <Card.Title >Site Reviews</Card.Title>
+          <Card.Text>{review_list}</Card.Text>
+        </Card>
       </Def>
     )
   }
 
 module.exports = get_one
+
+/*
+<form method="POST" action={`/sites/${data.site._id}/review/${c._id}?_method=DELETE`}>
+                  <input type="submit" id="del-review" className="btn-xs btn btn-danger " value="Delete" />
+              </form>
+*/
 
 /*
 .delete-button {

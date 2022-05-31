@@ -94,6 +94,7 @@ router.get('/site/:s_id', (req, res) => {
     //else
     //    res.render("error404")
     db.Site.findById(req.params.s_id)
+    .populate("reviews")
     .then(site => {
         res.render('sites-get-one', { site })
     })

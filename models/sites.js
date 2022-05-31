@@ -7,7 +7,7 @@ const siteSchema = new mongoose.Schema({
   state:    { type: String, default: 'USA' },
   years:    { type: Number },
   
-  //comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 })
 
 module.exports = mongoose.model('Site', siteSchema)
