@@ -27,6 +27,13 @@ router.get('/site/new', (req, res) => {
     res.render(`sites-get-newform`)
 })
 
+/* GET AIRBNB SITE LOGIN
+*/
+router.get('/user-login/:id', (req, res) => {
+    console.log(`/user-login/${req.params.id}`)
+    res.render(`login-form`, {login_type: req.params.id})
+})
+
 /* GET AIRBNB SITE EDIT FORM BY :id
 */
 router.get(`/site/:s_id/edit`, (req, res) => {
