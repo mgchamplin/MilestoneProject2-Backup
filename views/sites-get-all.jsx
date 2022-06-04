@@ -1,6 +1,7 @@
-const Def = require('./default')
+const Default = require('./default')
 import React from 'react'
 import Card from 'react-bootstrap/Card'
+import globalData from '../views/global'
 
 function get_all (data) {
     console.log("get-all.jsx")
@@ -26,7 +27,7 @@ function get_all (data) {
     })
 
     return (
-      <Def>
+      <Default>
         <main>
             <h1>Popular AirBnB Sites</h1>
             <h2>Click On One and Review It</h2>
@@ -35,7 +36,7 @@ function get_all (data) {
               {sitesForRendering}
             </div>
         </main>
-      </Def>
+      </Default>
     )
   }
 

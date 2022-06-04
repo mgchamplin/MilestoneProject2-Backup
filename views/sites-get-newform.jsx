@@ -1,10 +1,10 @@
 const React = require('react')
-const Def = require('./default')
+const Default = require('./default')
 
 function get_new_site_form () {
     console.log("get_new_site_form.jsx")
     return (
-      <Def>
+      <Default>
           <main>
             <h1>Add A New Site To Review</h1>
             <form method="POST" action="/site">
@@ -28,16 +28,16 @@ function get_new_site_form () {
                             <input className="form-control" id="state" name="state" />
                         </div>
                         <div className="form-group col-sm-4">
-                            <label for="years">Years Of Service</label>
+                            <label htmlFor="years">Years Of Service</label>
                             <input type="number" className="form-control" id="years" name="years"/>
                         </div>
                     </div>
-
-                    <input className="btn btn-primary btn-space" type="submit" value="Add Site" />
+                    <br></br>
+                    <input className="btn btn-primary btn-space" type="submit" value="Add Site"/>
                 </div>
             </form>
           </main>
-      </Def>
+      </Default>
     )
   }
 

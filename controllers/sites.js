@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { cornsilk } = require('color-name')
 const db = require('../models')
 
 /********************************************* GET OPERATIONS ****************************************** */
@@ -10,14 +11,11 @@ router.get('/', (req, res) => {
 
     db.Site.find()
     .then((sites) => {
-      console.log("ALL SITES = " + sites)
       res.render('sites-get-all', {sites})
     })
     .catch(err => {
       console.log(err) 
     })
-
-
 })
 
 /* GET AIRBNB SITE FORM FOR A NEW ENTRY
@@ -30,15 +28,17 @@ router.get('/site/new', (req, res) => {
 /* GET AIRBNB SITE LOGIN
 */
 router.get('/user-login/:id', (req, res) => {
-    console.log(`/user-login/${req.params.id}`)
-    res.render(`login-form`, {login_type: req.params.id})
+    console.log(`GET /user-login/${req.params.id}`)
+    if (req.params.id <= 3)                     // 1 - Admin log in, 2 - Reg User log in, 3 - user logging out
+        res.render(`login-action`, {login_type: req.params.id})
+    else
+        res.render('error404') 
 })
 
 /* GET AIRBNB SITE EDIT FORM BY :id
 */
 router.get(`/site/:s_id/edit`, (req, res) => {
     console.log(`GET /site/${req.params.s_id}/Edit` + " for " + req.params.s_id)
-    //res.render(`sites-get-editform`, sites[req.params.s_id])
 
     db.Site.findById(req.params.s_id)
     .then (site => {
@@ -69,10 +69,7 @@ router.get('/site/:s_id/review/new', (req, res) => {
 */
 router.get('/site/:s_id', (req, res) => {
     console.log(`GET /site/${req.params.s_id}`)
-    //if (req.params.s_id < sites.length)
-    //    res.render(`sites-get-one`, sites[req.params.s_id]) 
-    //else
-    //    res.render("error404")
+    
     db.Site.findById(req.params.s_id)
     .populate("reviews")
     .then(site => {
@@ -85,12 +82,41 @@ router.get('/site/:s_id', (req, res) => {
 })
 
 /********************************************* POST/CREATE OPERATIONS ****************************************** */
-router.post('/site', (req, res) => {                        // POST NEW SITE TO DB
-    console.log(`POST /`)
+router.post('/login', (req, res) => {                        // POST - PROCESS USER LOGIN
+    console.log(`POST /login`)
     console.log(req.body)
 
-    //sites.push(req.body)
-    //sites[sites.length-1].id = sites.length-1;            // Temp code to manage local DB
+    db.User.find()                            // Log all users in DB
+    .then((users) => {
+      console.log("ALL users = " + users)
+    })
+
+    db.User.findOne({"username" : req.body.username})
+    .then(user => {
+        if (req.body.password === user.password) {
+            console.log("And password matches = " + user.password)
+
+            if (req.body.username === 'Admin') {
+                console.log("Admin Logged In")
+            }
+            else {
+                console.log("Regular user Logged In")
+            }
+            res.render('login-successful',{username: req.body.username})
+        }
+        else {
+            console.log("Incorrect Password")
+            res.redirect('/')
+        }
+    })
+    .catch(err => {
+        console.log('User Not Found...', req.body.username)
+        res.render('error404')
+    })
+})
+
+router.post('/site', (req, res) => {                        // POST NEW SITE TO DB
+    console.log(`POST /`)
 
     db.Site.create(req.body)
 
@@ -102,10 +128,13 @@ router.post('/site/:s_id/review', (req, res) => {           // POST NEW REVIEW T
 
     db.Site.findById(req.params.s_id)
     .then(site => {
+        console.log("REQQ is " + req.body + " " + req.body.reviewer)
+        req.body.reviewer = "Admin"
+
         db.Review.create(req.body)
         .then(review => {
-            console.log("Storing review!")
-  
+            review.reviewer = "JACK"
+
             site.reviews.push(review.id)
             site.save()
             .then(() => {
@@ -128,8 +157,6 @@ router.post('/site/:s_id/review', (req, res) => {           // POST NEW REVIEW T
 /********************************************* PUT/MODIFY OPERATIONS ****************************************** */
 router.put('/site/:s_id', (req, res) => {
     console.log(`PUT /site/${req.params.s_id}`)
-    //sites[req.params.s_id] = req.body;                    // Temp code to manage local DB
-    //sites[req.params.s_id].id = req.params.s_id;          // Temp code to manage local DB
 
     db.Site.findByIdAndUpdate(req.params.s_id, req.body)
     
@@ -145,12 +172,6 @@ router.put('/site/:s_id', (req, res) => {
 /********************************************* DELETE OPERATIONS ****************************************** */
 router.delete('/site/:s_id/review/:r_id', (req, res) => {    // *** FOR DELETING A SINGLE REVIEW
     console.log(`DELETE /site/${req.params.s_id}/review/${req.params.r_id}`)
-
-    //if (Number(req.params.s_id) < sites.length) {
-    //    console.log("Deleting " + req.params.s_id)
-    //    sites.splice(req.params.s_id,1)                 // Temp code to remove that array element
-    //    sites.forEach((site,i) => site.id=i)            // Temp code to reset ids to be contiguous for future deletes
-    //}
 
     db.Review.findByIdAndDelete(req.params.r_id)
         .then (review => {
@@ -170,11 +191,6 @@ router.delete('/site/:s_id/review/:r_id', (req, res) => {    // *** FOR DELETING
 
 router.delete('/site/:s_id', (req, res) => {                // *** FOR DELETING THE ENTIRE SITE ***
     console.log(`DELETE /site/${req.params.s_id}`)
-    //if (Number(req.params.s_id) < sites.length) {
-    //    console.log("Deleting " + req.params.s_id)
-    //    sites.splice(req.params.s_id,1)                 // Temp code to remove that array element
-    //    sites.forEach((site,i) => site.id=i)            // Temp code to reset ids to be contiguous for future deletes
-    //}
 
     db.Site.findByIdAndDelete(req.params.s_id)
         .then (site => {

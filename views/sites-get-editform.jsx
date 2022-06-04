@@ -1,10 +1,10 @@
 const React = require('react')
-const Def = require('./default')
+const Default = require('./default')
 
 function get_edit_form (data) {
     console.log("get-editform.jsx  for  " + data.site.name)
     return (
-      <Def>
+      <Default>
         <main>
             <h1>Edit Site</h1>
             <form method="POST" action={`/site/${data.site._id}?_method=PUT`}>
@@ -37,7 +37,7 @@ function get_edit_form (data) {
                 </div>
             </form>
         </main>
-      </Def>
+      </Default>
     )
   }
 

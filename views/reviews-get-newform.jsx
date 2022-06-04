@@ -1,11 +1,11 @@
-const Def = require('./default')
+const Default = require('./default')
 import React from 'react'
 import Card from 'react-bootstrap/Card'
 
 function get_new_review_form (data) {
     console.log("get_new_review_form.jsx")
     return (
-      <Def>
+      <Default>
           <main>
             <h1>Add A New Review</h1>
             <Card className="one-card-show">
@@ -23,7 +23,7 @@ function get_new_review_form (data) {
                         </div>
                         <div style={{"width":"15%"}} className="form-group col-sm-6">
                             <label htmlFor="stars">Rating</label>
-                            <input type="number" min="1" max="5" step="1" value="1" className="stars-slider form-control" id="stars" name="stars" />
+                            <input type="number" min="1" max="5" step="1" className="stars-slider form-control" id="stars" name="stars" />
                         </div>
                     <div style={{"width":"25%"}}>
                         <label htmlFor="date">Review Date</label>
@@ -37,11 +37,11 @@ function get_new_review_form (data) {
                         <h1></h1>
                     </div>
             
-                    <input className="btn btn-primary btn-space" type="submit" value="Add Review" />
+                    <input className="btn btn-primary btn-space" type="submit"/>
                 </div>
             </form>
           </main>
-      </Def>
+      </Default>
     )
   }
 
