@@ -32,10 +32,15 @@ function take_login_action (user) {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="image">Password</label>
-                                <input className="form-control" id="password" name="password"></input>
+                                <input className="form-control" id="password" name="password" type="password"></input>
                             </div>
                             <h1></h1>
                             <input className="btn btn-primary btn-space" type="submit" value="Log in" />
+                        </div>
+                        <hr></hr>
+                        <div style={{"textAlign":"center","color":"red"}}>
+                            <h2 style={{"textDecoration":"none"}}>Not Registered?</h2>
+                            <a href="/register">Click Here To Register</a>
                         </div>
                     </form>
                 </main>

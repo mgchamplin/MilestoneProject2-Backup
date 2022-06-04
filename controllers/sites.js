@@ -25,6 +25,14 @@ router.get('/site/new', (req, res) => {
     res.render(`sites-get-newform`)
 })
 
+/* GET AIRBNB SITE REGISTER FORM REQUEST
+*/
+router.get('/register', (req, res) => {
+    console.log(`GET /register`)
+    
+    res.render('register-get-form') 
+})
+
 /* GET AIRBNB SITE LOGIN
 */
 router.get('/user-login/:id', (req, res) => {
@@ -115,6 +123,37 @@ router.post('/login', (req, res) => {                        // POST - PROCESS U
     })
 })
 
+router.post('/register', (req, res) => {                    // POST - PROCESS AIRBNB SITE REGISTRATION 
+    console.log(`POST /login`)
+    console.log(req.body)
+
+    db.User.findOne({"username" : req.body.username})
+    .then(user => {
+        res.render('registration-response', {status:`Username ${user.username} already in use`})
+    })
+    .catch(err => {
+        console.log("Username avaiable -> " + req.body.username)
+
+        if (req.body.username !== "Admin")
+        {
+            db.User.create(req.body)
+            .then(user => {
+                console.log(`User ${req.body.username} created`)
+
+                res.render('registration-response', {status:"Registration Complete!"})
+            })
+            .catch(err => {
+                console.log("Failed User Creation")
+    
+                res.render('error404')
+            })
+        } else
+        {
+            res.render('registration-response', {status:"Admin username is reserved"})
+        }
+    })
+})
+
 router.post('/site', (req, res) => {                        // POST NEW SITE TO DB
     console.log(`POST /`)
 
@@ -131,8 +170,6 @@ router.post('/site/:s_id/review/:u_id', (req, res) => {     // POST NEW REVIEW T
 
         console.log("User = " + req.params.u_id)
         req.body.reviewer = req.params.u_id
-        req.body.stars = 4
-
 
         db.Review.create(req.body)
         .then(review => {

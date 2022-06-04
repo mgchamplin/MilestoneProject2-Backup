@@ -4,8 +4,6 @@ const express = require('express')
 const app = express()
 const methodOverride = require('method-override')
 
-console.log("Branch test")
-
 const mongoose = require('mongoose')
 
 mongoose.connect(process.env.MONGODB_URI, {
