@@ -123,17 +123,19 @@ router.post('/site', (req, res) => {                        // POST NEW SITE TO 
     res.redirect('/')
 })
 
-router.post('/site/:s_id/review', (req, res) => {           // POST NEW REVIEW TO DB
+router.post('/site/:s_id/review/:u_id', (req, res) => {     // POST NEW REVIEW TO DB
     console.log(`POST /site/${req.params.s_id}/review`)
 
     db.Site.findById(req.params.s_id)
     .then(site => {
-        console.log("REQQ is " + req.body + " " + req.body.reviewer)
-        req.body.reviewer = "Admin"
+
+        console.log("User = " + req.params.u_id)
+        req.body.reviewer = req.params.u_id
+        req.body.stars = 4
+
 
         db.Review.create(req.body)
         .then(review => {
-            review.reviewer = "JACK"
 
             site.reviews.push(review.id)
             site.save()

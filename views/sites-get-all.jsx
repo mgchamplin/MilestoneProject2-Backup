@@ -9,7 +9,7 @@ function get_all (data) {
     let sitesForRendering = data.sites.map((site,i) => {
       site.id = i;
       return (
-        <Card key={i} className="card-style border border-primary">
+        <Card key={i} style={{"border-radius":"1.5em"}} className="card-style border border-primary">
             {console.log("I = " + i + "  CITY = " + site.city)}
             
             <Card.Link className="card-link" href={`site/${site._id}`}>{site.name}</Card.Link>

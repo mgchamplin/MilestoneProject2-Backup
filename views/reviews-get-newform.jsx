@@ -1,6 +1,7 @@
 const Default = require('./default')
 import React from 'react'
 import Card from 'react-bootstrap/Card'
+import gUser from '../views/global'
 
 function get_new_review_form (data) {
     console.log("get_new_review_form.jsx")
@@ -14,19 +15,15 @@ function get_new_review_form (data) {
             </Card>
             <br></br>       
 
-            <form method="POST" action={`/site/${data.site._id}/review`}>
+            <form method="POST" action={`/site/${data.site._id}/review/${gUser.username}`}>
                 <div className="form_container">
                     <div className="row">
-                        <div style={{"width":"60%"}} className="form-group col-sm-6">
-                            <label htmlFor="reviewer">Reviewer username</label>
-                            <input className="form-control" id="reviewer" name="reviewer" required />
-                        </div>
                         <div style={{"width":"15%"}} className="form-group col-sm-6">
                             <label htmlFor="stars">Rating</label>
                             <input type="number" min="1" max="5" step="1" className="stars-slider form-control" id="stars" name="stars" />
                         </div>
                     <div style={{"width":"25%"}}>
-                        <label htmlFor="date">Review Date</label>
+                        <label htmlFor="date">Stay Date</label>
                         <input type="date" className="form-control" id="date" name="date" required />
                     </div>
                     </div>

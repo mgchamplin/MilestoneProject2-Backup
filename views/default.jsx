@@ -23,7 +23,7 @@ function Default (html) {
                         <Container >
                             <Nav className="m-auto">
                                 <Nav.Link href="/">Home</Nav.Link>
-                                <Nav.Link href="/site/new">Add Site</Nav.Link>
+                                {is_admin_logged_in ? <Nav.Link href="/site/new">Add Site</Nav.Link> : ""}
                             </Nav>
                         </Container>
                     </Navbar>
