@@ -15,7 +15,7 @@ function Default (html) {
                 <link rel="stylesheet" href="/css/style.css"/>
             </head>
             <body>
-                <div style={{"display":"flex"}}>
+                <div style={{"display":"flex", "position":"sticky"}}>
                     <Navbar style={{"width":"20%","justifyContent":"left"}} id="TopNavBar" bg="primary" variant="dark">
                         <Nav.Link></Nav.Link>
                     </Navbar>
