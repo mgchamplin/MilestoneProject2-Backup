@@ -5,17 +5,23 @@ import gUser from '../views/global'
 
 function get_one (data) {
     console.log("get-one.jsx for " + data.site.name)
-    //console.log("DUMP ALL = " + data.site)
+    console.log("DUMP SITE and REVIEWS = " + data.site)
 
     let review_list = (
       <h3 className="inactive">No Reviews Yet - Be The First!</h3>
     )
     let keyNum = 0;
+    let total_stars = 0;
+    let average_rating = ""
+
     if (data.site.reviews.length) {
+      console.log("REVIEW LEN = " + data.site.reviews.length)
       review_list = data.site.reviews.map(c => {
         let stars = "";
         for (let i=0; i < c.stars; i++)
             stars += '⭐'
+
+        total_stars += c.stars
   
         return (
           <div key={keyNum++}>
@@ -24,13 +30,21 @@ function get_one (data) {
               <p>Rating: {stars}</p>
             </div>
             <p className="review-data">{c.review}</p>
-            <form style={{"marginTop":"-2em"}} method="POST" action={`/site/${data.site.id}/review/${c._id}?_method=DELETE`}>
+            {(gUser.username === "Admin") ? <form style={{"marginTop":"-2em"}} method="POST" action={`/site/${data.site.id}/review/${c._id}?_method=DELETE`}>
                 <input type="image" className="trash-can-icon" src="../images/delete.jpg" value="Delete" />
-            </form>
+            </form>:""}
             <hr></hr>
           </div>
         )
       })
+
+      /* Calculate the average rating for the site
+      */
+      let ave_stars = total_stars / data.site.reviews.length;
+
+      console.log("AVERAGE = " + ave_stars)
+      for (let i=0; i<Math.floor(ave_stars); i++)
+          average_rating += '⭐'
     }
     return (
       <Default>
@@ -42,7 +56,10 @@ function get_one (data) {
 
             <Card.Text>
               {data.site.city}, {data.site.state} <br></br>
-              {data.site.years} years in service
+              <div style={{"display":"flex", "justifyContent":"space-between", "marginLeft":"2em","marginRight":"2em"}}>
+                  <p1>{data.site.years} years in service</p1>
+                  <p1>Average Rating: {average_rating}</p1>
+              </div>
             </Card.Text>
             
             <div className="button-group">

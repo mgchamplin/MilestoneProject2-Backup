@@ -1,26 +1,39 @@
 const Default = require('./default')
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-import globalData from '../views/global'
 
 function get_all (data) {
     console.log("get-all.jsx")
 
     let sitesForRendering = data.sites.map((site,i) => {
       site.id = i;
+
+      let average_rating = "";
+      for (let i=0; i<Math.floor(site.total_stars / site.reviews.length); i++)
+          average_rating += '⭐'
+
       return (
         <Card key={i} style={{"borderRadius":"1.5em"}} className="card-style border border-primary">
-            {console.log("I = " + i + "  CITY = " + site.city)}
+            {console.log("I = " + i + " CITY = " + site.city + " Reviews=" + site.reviews.length + " AllStars=" + site.total_stars)}
+            {console.log("FROM GET ALL SITES " + site.reviews)}
             
             <Card.Link className="card-link" href={`site/${site._id}`}>{site.name}</Card.Link>
 
-            <Card.Img variant="top" src={site.image}/>
+            <Card.Img style={{"width":"100%", "height":"240px"}}variant="top" src={site.image}/>
+
+            <Card.Title style={{"marginLeft":"0.8em", "marginTop":"0.3em"}}>{site.city}, {site.state}</Card.Title>
 
             <Card.Body>
-                <Card.Title>{site.city}</Card.Title>
-                <Card.Text>
-                  {site.state} <br></br> {site.years} years of service
-                </Card.Text>
+                <div style={{"display":"flex", "justifyContent":"space-between"}}>
+                  <Card.Text>
+                    {site.years} years of service
+                  </Card.Text>
+                  <Card.Text>
+                    {average_rating}
+                  </Card.Text>
+                </div>
+                {(site.reviews.length === 1) ? <Card.Text style={{"marginTop":"-1em"}}>{site.reviews.length} Review</Card.Text> :
+                                               <Card.Text style={{"marginTop":"-1em"}}>{site.reviews.length} Reviews</Card.Text>}
             </Card.Body> 
         </Card>
       )
@@ -30,7 +43,7 @@ function get_all (data) {
       <Default>
         <main>
             <h1>Popular AirBnB Sites</h1>
-            <h2>Click On One and Review It</h2>
+            <h2>Log In and Review Them!</h2>
 
             <div className="cards-list d-flex">
               {sitesForRendering}

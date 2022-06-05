@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
   })
 
-console.log("CONNECTING TO =" + process.env.MONGODB_URI)
+//console.log("CONNECTING TO =" + process.env.MONGODB_URI)
 
 // Express Settings
 app.set('views', __dirname + '/views')
