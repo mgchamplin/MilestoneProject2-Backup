@@ -1,13 +1,18 @@
+body {
+  background-image: url("../images/airplane.jpg");
+  background-size: cover;
+}
+
 h1 {
   text-align: center;
-  color: black;
+  color: rgb(243, 233, 233);
   font-size: 2em;
 }
 
 h2 {
   text-align: center;
   text-decoration: underline;
-  color: rgb(85, 82, 82);
+  color:rgb(243, 233, 233);
   font-size: 1.3em;
 }
 
@@ -21,8 +26,9 @@ h2 {
 
 .card-link {
   text-align: center;
-  text-decoration: underline;
-  color:green;
+  text-decoration:  bold;
+  font-weight: 700;
+  color:rgb(35, 3, 121);
   font-size: 1.2em;
 }
 
@@ -35,7 +41,7 @@ h2 {
   margin-left:auto;
   margin-right:auto;
   text-align: center;
-  width:50%;
+  width:60%;
   border: 4px solid rgb(62, 100, 202);
   border-radius:2em;
 }

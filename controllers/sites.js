@@ -94,13 +94,15 @@ router.post('/login', (req, res) => {                        // POST - PROCESS U
     console.log(`POST /login`)
     console.log(req.body)
 
-    db.User.find()                            // Log all users in DB
+    db.User.find()                                           // Log all users in DB
     .then((users) => {
       console.log("ALL users = " + users)
     })
 
     db.User.findOne({"username" : req.body.username})
     .then(user => {
+        console.log('Found ', user.username)
+
         if (req.body.password === user.password) {
             console.log("And password matches = " + user.password)
 
@@ -110,17 +112,18 @@ router.post('/login', (req, res) => {                        // POST - PROCESS U
             else {
                 console.log("Regular user Logged In")
             }
-            res.render('login-successful',{username: req.body.username})
+            res.render('login-successful',{username: user.username})
         }
         else {
             console.log("Incorrect Password")
-            res.redirect('/')
+            res.render('login-unsuccessful',{username: user.username, failure_reason:"Incorrect Password for "})
         }
     })
     .catch(err => {
         console.log('User Not Found...', req.body.username)
-        res.render('error404')
+        res.render('login-unsuccessful',{username: req.body.username, failure_reason:"Cannot find user "})
     })
+    console.log("DONE")
 })
 
 router.post('/register', (req, res) => {                    // POST - PROCESS AIRBNB SITE REGISTRATION 
@@ -165,14 +168,20 @@ router.post('/site', (req, res) => {                        // POST NEW SITE TO 
 router.post('/site/:s_id/review/:u_id', (req, res) => {     // POST NEW REVIEW TO DB
     console.log(`POST /site/${req.params.s_id}/review`)
 
+    console.log("PARAMS = " + req.body)
+
     db.Site.findById(req.params.s_id)
     .then(site => {
 
-        console.log("User = " + req.params.u_id)
         req.body.reviewer = req.params.u_id
+
+        db.Site.findByIdAndUpdate(req.params.s_id, site)
 
         db.Review.create(req.body)
         .then(review => {
+            site.total_stars += review.stars;
+
+            console.log("TOTAL STARS = " + site.total_stars)
 
             site.reviews.push(review.id)
             site.save()
@@ -216,8 +225,14 @@ router.delete('/site/:s_id/review/:r_id', (req, res) => {    // *** FOR DELETING
         .then (review => {
             db.Site.findById(req.params.s_id)
             .then (site =>{
-                console.log("PLACE IZ " + site.id)
+                // ** remove that review's stars from the site's total
+                //
+                site.total_stars -= review.stars;
 
+                let index = site.reviews.indexOf(review.id)
+                site.reviews.splice(index,1)
+                site.save()
+                
                 res.redirect(`/site/${site.id}`)
             })
 

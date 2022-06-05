@@ -4,6 +4,7 @@ import gUser from '../views/global'
 
 function process_successful_login(user) {
     console.log("process_successful_login.jsx")
+
     gUser.username = user.username;
 
     return (
