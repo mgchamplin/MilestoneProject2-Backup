@@ -5,7 +5,7 @@ function get_edit_form (data) {
     console.log("get-editform.jsx  for  " + data.site.name)
     return (
       <Default>
-        <main>
+        <main style={{"color":"white"}}>
             <h1>Edit Site</h1>
             <form method="POST" action={`/site/${data.site._id}?_method=PUT`}>
                 <div className="form_container">
@@ -28,8 +28,8 @@ function get_edit_form (data) {
                             <input className="form-control" id="state" name="state" defaultValue={data.site.state}/>
                         </div>
                         <div className="form-group col-sm-4">
-                            <label htmlFor="years">Years In Service</label>
-                            <input type="number" className="form-control" id="years" name="years" defaultValue={data.site.years}/>
+                            <label htmlFor="years">Price Range</label>
+                            <input className="form-control" id="price_range" name="price_range" defaultValue={data.site.price_range}/>
                         </div>
                     </div>
                     <h1></h1>

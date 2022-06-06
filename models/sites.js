@@ -5,7 +5,7 @@ const siteSchema = new mongoose.Schema({
   image:      { type: String, default: "./images/sample.jpg"},
   city:       { type: String, default: 'Anytown' },
   state:      { type: String, default: 'USA' },
-  years:      { type: Number },
+  price_range:{ type: String, default: ""},
   total_stars:{ type: Number, default: 0},
   
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]

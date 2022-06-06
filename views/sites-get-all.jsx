@@ -8,8 +8,11 @@ function get_all (data) {
     let sitesForRendering = data.sites.map((site,i) => {
       site.id = i;
 
+      if (i == 1) console.log("Reviews#" + site.reviews.length + "  TotalStars " + site.total_stars)
+      if (i == 1) console.log("AVERAGE = " + Math.round(site.total_stars / site.reviews.length))
+
       let average_rating = "";
-      for (let i=0; i<Math.floor(site.total_stars / site.reviews.length); i++)
+      for (let i=0; i<Math.round(site.total_stars / site.reviews.length); i++)
           average_rating += '⭐'
 
       return (
@@ -23,17 +26,15 @@ function get_all (data) {
 
             <Card.Title style={{"marginLeft":"0.8em", "marginTop":"0.3em"}}>{site.city}, {site.state}</Card.Title>
 
-            <Card.Body>
+            <Card.Body style={{"marginTop":"-1em"}}>
                 <div style={{"display":"flex", "justifyContent":"space-between"}}>
-                  <Card.Text>
-                    {site.years} years of service
-                  </Card.Text>
+                  {(site.reviews.length === 1) ? <Card.Text >{site.reviews.length} Review</Card.Text> :
+                                                  <Card.Text>{site.reviews.length} Reviews</Card.Text>}
                   <Card.Text>
                     {average_rating}
                   </Card.Text>
                 </div>
-                {(site.reviews.length === 1) ? <Card.Text style={{"marginTop":"-1em"}}>{site.reviews.length} Review</Card.Text> :
-                                               <Card.Text style={{"marginTop":"-1em"}}>{site.reviews.length} Reviews</Card.Text>}
+                <Card.Text style={{"marginTop":"-1.2em"}}>{site.price_range}</Card.Text>
             </Card.Body> 
         </Card>
       )
