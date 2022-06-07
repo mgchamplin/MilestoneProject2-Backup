@@ -6,8 +6,14 @@ body {
 h1 {
   text-align: center;
   color: rgb(243, 233, 233);
+  text-shadow: 1px 1px 1px blueviolet,
+               2px 2px 1px blue;
+
   font-size: 2em;
-}
+ 
+} 
+ 
+
 
 h2 {
   text-align: center;
