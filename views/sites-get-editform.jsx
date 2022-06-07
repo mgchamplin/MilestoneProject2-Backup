@@ -28,8 +28,8 @@ function get_edit_form (data) {
                             <input className="form-control" id="state" name="state" defaultValue={data.site.state}/>
                         </div>
                         <div className="form-group col-sm-4">
-                            <label htmlFor="years">Price Range</label>
-                            <input className="form-control" id="price_range" name="price_range" defaultValue={data.site.price_range}/>
+                            <label htmlFor="ave_price">Price Range</label>
+                            <input type="number" min="10" max="500" step="5" className="form-control" id="ave_price" name="ave_price" defaultValue={data.site.price}/>
                         </div>
                     </div>
                     <h1></h1>

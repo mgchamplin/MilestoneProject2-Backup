@@ -28,8 +28,8 @@ function get_new_site_form () {
                             <input className="form-control" id="state" name="state" />
                         </div>
                         <div className="form-group col-sm-4">
-                            <label htmlFor="price_range">Price Range</label>
-                            <input className="form-control" id="price_range" name="price_range"/>
+                            <label htmlFor="ave_price">Average Price</label>
+                            <input className="form-control" type="number" min="10" max="500" step="10" id="ave_price" name="ave_price" />
                         </div>
                     </div>
                     <br></br>

@@ -26,7 +26,7 @@ function get_one (data) {
           return (
             <div key={keyNum++}>
               <div className="review-header">
-                <p>Reviewed by {c.reviewer}: {c.date}  </p>
+                <p>Reviewed by {c.reviewer}: {c.date}</p>
                 <p>Rating: {stars}</p>
               </div>
               <p className="review-data">{c.review}</p>
@@ -55,11 +55,13 @@ function get_one (data) {
         <Card className="one-card-show">
             <Card.Title>{data.site.name}</Card.Title>
 
-            <Card.Img src={'.'+data.site.image}/>
+            <Card.Img src={data.site.image}/>
 
             <Card.Text>
               {data.site.city}, {data.site.state} <br></br>
-              <div style={{"display":"flex", "justifyContent":"space-between", "marginLeft":"2em","marginRight":"2em"}}>
+              <Card.Text style={{"marginTop":"-1em"}}>Average Price: ${data.site.ave_price}</Card.Text>
+
+              <div style={{"display":"flex", "justifyContent":"space-between", "marginLeft":"2em","marginRight":"2em", "marginTop":"-1em"}}>
                   <p1>{data.site.reviews.length} reviews</p1>
                   <p1>Average Rating: {average_rating}</p1>
               </div>

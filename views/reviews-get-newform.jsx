@@ -11,10 +11,12 @@ function get_new_review_form (data) {
             <h1>Add A New Review</h1>
             <Card className="one-card-show">
                 <Card.Title>{data.site.name}</Card.Title>
-                <Card.Img src={'../../.'+data.site.image} alt="AirBnB image"/>
+                <Card.Img src={data.site.image} alt="AirBnB image"/>
+                <br></br>
+
             </Card>
             <br></br>       
-
+            {console.log("THE USER IS " + gUser.username)}
             <form method="POST" action={`/site/${data.site._id}/review/${gUser.username}`}>
                 <div className="form_container">
                     <div className="row">
@@ -35,6 +37,8 @@ function get_new_review_form (data) {
                     </div>
             
                     <input className="btn btn-primary btn-space" type="submit"/>
+                    <br></br>
+                    <br></br>
                 </div>
             </form>
           </main>
