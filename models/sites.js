@@ -7,6 +7,8 @@ const siteSchema = new mongoose.Schema({
   state:      { type: String, default: 'USA' },
   ave_price:  { type: String, default: 0},
   total_stars:{ type: Number, default: 0},
+  num_reviews:{ type: Number, default: 0},
+  ave_rating: { type: Number, default: 0},
   
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 })

@@ -5,14 +5,16 @@ import gUser from '../views/global'
 
 function get_one (data) {
     console.log("get-one.jsx for " + data.site.name)
-    console.log("DUMP SITE and REVIEWS = " + data.site)
+    //console.log("DUMP SITE and REVIEWS = " + data.site)
 
     let review_list = (
       <h3 className="inactive">No Reviews Yet - Be The First!</h3>
     )
     let keyNum = 0;
-    let total_stars = 0;
     let average_rating = ""
+
+    if (data.site.reviews.length != data.site.num_reviews)  
+          console.log ("ERROR - DB OOS DBRL="+data.site.reviews.length + " DBNR=" + data.site.num_reviews)
 
     if (data.site.reviews.length) {
 
@@ -20,8 +22,6 @@ function get_one (data) {
           let stars = "";
           for (let i=0; i < c.stars; i++)
               stars += '⭐'
-
-          total_stars += c.stars
     
           return (
             <div key={keyNum++}>
@@ -42,11 +42,8 @@ function get_one (data) {
 
       /* Calculate the average rating for the site
       */
-      let ave_stars = total_stars / data.site.reviews.length;
-
-      console.log("Reviews#" + data.site.reviews.length + "  TotalStars " + total_stars)
-      console.log("AVERAGE = " + ave_stars)
-      for (let i=0; i<Math.round(ave_stars); i++)
+      console.log("Reviews#" + data.site.reviews.length + " Ave Rating=" + data.site.ave_rating)
+      for (let i=0; i<data.site.ave_rating; i++)
           average_rating += '⭐'
     }
     return (

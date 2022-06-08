@@ -133,6 +133,17 @@ router.get('/sort/:key/:sort_type', (req, res) => {
         Object.assign(search_string, {ave_price:req.params.sort_type})
     }
 
+    if (req.params.key === "num_reviews") {
+        console.log("Search on num_reviews: " + req.params.sort_type)
+        Object.assign(search_string, {num_reviews:req.params.sort_type})
+    }
+
+    if (req.params.key === "ave_rating") {
+        console.log("Search on ave_rating: " + req.params.sort_type)
+        Object.assign(search_string, {ave_rating:req.params.sort_type})
+    }
+
+    //search_string = { ave_rating: 1, ave_price: 1 }
     console.log(search_string)
     
     db.Site.find().sort(search_string)
@@ -231,7 +242,7 @@ router.post('/site', (req, res) => {                        // POST NEW SITE TO 
 router.post('/site/:s_id/review/:u_id', (req, res) => {     // POST NEW REVIEW TO DB
     console.log(`POST /site/${req.params.s_id}/review`)
 
-    console.log("PARAMS = " + req.body)
+    console.log(req.body)
 
     db.Site.findById(req.params.s_id)
     .then(site => {
@@ -243,8 +254,11 @@ router.post('/site/:s_id/review/:u_id', (req, res) => {     // POST NEW REVIEW T
         db.Review.create(req.body)
         .then(review => {
             site.total_stars += review.stars;
+            site.num_reviews++;
+            site.ave_rating = Math.round(site.total_stars / site.num_reviews)
 
-            console.log("TOTAL STARS = " + site.total_stars)
+            console.log("ADD totalstars=" + site.total_stars + " num_reviews=" + site.num_reviews + " Ave=" + site.ave_rating)
+
 
             site.reviews.push(review.id)
             site.save()
@@ -283,13 +297,20 @@ router.put('/site/:s_id', (req, res) => {
 router.delete('/site/:s_id/review/:r_id', (req, res) => {    // *** FOR DELETING A SINGLE REVIEW
     console.log(`DELETE /site/${req.params.s_id}/review/${req.params.r_id}`)
 
-    db.Review.findByIdAndDelete(req.params.r_id)
+    db.Review.findByIdAndDelete(req.params.r_id)            // *** FOR DELETING A REVIEW ***
         .then (review => {
             db.Site.findById(req.params.s_id)
             .then (site =>{
                 // ** remove that review's stars from the site's total
                 //
                 site.total_stars -= review.stars;
+                site.num_reviews--;
+                if (site.num_reviews != 0) 
+                    site.ave_rating = Math.round(site.total_stars / site.num_reviews)
+                else
+                    site.ave_rating = 0;
+
+                console.log("DEL totalstars=" + site.total_stars + " num_reviews=" + site.num_reviews + " Ave=" + site.ave_rating)
 
                 let index = site.reviews.indexOf(review.id)
                 site.reviews.splice(index,1)
