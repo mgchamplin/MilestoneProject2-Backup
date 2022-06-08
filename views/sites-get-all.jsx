@@ -20,21 +20,23 @@ function get_all (data) {
             {console.log("I = " + i + " CITY = " + site.city + " Reviews=" + site.reviews.length + " AllStars=" + site.total_stars)}
             {console.log("FROM GET ALL SITES " + site.reviews)}
             
-            <Card.Link className="card-link" href={`site/${site._id}`}>{site.name}</Card.Link>
+            <Card.Link className="card-link" href={`/site/${site._id}`}>{site.name}</Card.Link>
 
             <Card.Img style={{"width":"100%", "height":"240px"}}variant="top" src={site.image}/>
 
             <Card.Title style={{"marginLeft":"0.8em", "marginTop":"0.3em"}}>{site.city}, {site.state}</Card.Title>
 
             <Card.Body style={{"marginTop":"-1em"}}>
-                <div style={{"display":"flex", "justifyContent":"space-between"}}>
+              
+                <Card.Text >Ave Price: ${site.ave_price}</Card.Text>
+
+                <div style={{"display":"flex", "justifyContent":"space-between", "marginTop":"-1.2em"}}>
                   {(site.reviews.length === 1) ? <Card.Text >{site.reviews.length} Review</Card.Text> :
                                                   <Card.Text>{site.reviews.length} Reviews</Card.Text>}
                   <Card.Text>
                     {average_rating}
                   </Card.Text>
                 </div>
-                <Card.Text style={{"marginTop":"-1.2em"}}>{site.price_range}</Card.Text>
             </Card.Body> 
         </Card>
       )

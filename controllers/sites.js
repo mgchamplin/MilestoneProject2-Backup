@@ -2,10 +2,13 @@ const router = require('express').Router()
 const { cornsilk } = require('color-name')
 const db = require('../models')
 
+let search_string = {}
+
 /********************************************* GET OPERATIONS ****************************************** */
 /* GET ALL AIRBNB SITES
 */
 router.get('/', (req, res) => {
+
     console.log("------------------------------------")
     console.log("GET /")
 
@@ -31,6 +34,22 @@ router.get('/register', (req, res) => {
     console.log(`GET /register`)
     
     res.render('register-get-form') 
+})
+
+/* GET AIRBNB SORT & SEARCH PAGE
+*/
+router.get('/search_sort', (req, res) => {
+    console.log(`GET /search_sort`)
+
+    search_string = {}                          // Reset the search string for later
+    
+    db.Site.find()
+    .then((sites) => {
+        res.render('site-get-search-sort',{sites:sites, sort_target:"none"}) 
+    })
+    .catch(err => {
+      console.log(err) 
+    })
 })
 
 /* GET AIRBNB SITE LOGIN
@@ -89,6 +108,44 @@ router.get('/site/:s_id', (req, res) => {
     })
 })
 
+/* GET AIRBNB SORT & SEARCH RESULTS
+*/
+router.get('/sort/:key/:sort_type', (req, res) => {
+    console.log("GET /sort Key = " + req.params.key + " type = " + req.params.sort_type)
+
+    if (req.params.key === "name") {
+        console.log("Search on name: " + req.params.sort_type)
+        Object.assign(search_string, {name:req.params.sort_type})
+    }
+
+    if (req.params.key === "state") {
+        console.log("Search on state: " + req.params.sort_type)
+        Object.assign(search_string, {state:req.params.sort_type})
+    }
+
+    if (req.params.key === "city") {
+        console.log("Search on city: " + req.params.sort_type)
+        Object.assign(search_string, {city:req.params.sort_type})
+    }
+
+    if (req.params.key === "price") {
+        console.log("Search on price: " + req.params.sort_type)
+        Object.assign(search_string, {ave_price:req.params.sort_type})
+    }
+
+    console.log(search_string)
+    
+    db.Site.find().sort(search_string)
+    .then((sites) => {
+        res.render('site-get-search-sort',{sites:sites, sort_target:req.params.key}) 
+    })
+    .catch(err => {
+        console.log(err) 
+        res.render('error404')
+    })
+})
+
+
 /********************************************* POST/CREATE OPERATIONS ****************************************** */
 router.post('/login', (req, res) => {                        // POST - PROCESS USER LOGIN
     console.log(`POST /login`)
@@ -101,6 +158,12 @@ router.post('/login', (req, res) => {                        // POST - PROCESS U
 
     db.User.findOne({"username" : req.body.username})
     .then(user => {
+        if (user === null) {
+            console.log("Sanitized user! User not found");
+            res.render('login-unsuccessful',{username: req.body.username, failure_reason:"Cannot find user "})
+            return;
+        }
+
         console.log('Found ', user.username)
 
         if (req.body.password === user.password) {
@@ -200,7 +263,6 @@ router.post('/site/:s_id/review/:u_id', (req, res) => {     // POST NEW REVIEW T
         res.render('error404')
     })
 })
-
 
 /********************************************* PUT/MODIFY OPERATIONS ****************************************** */
 router.put('/site/:s_id', (req, res) => {

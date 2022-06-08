@@ -5,7 +5,7 @@ function create_registration () {
    
         return (
             <Default>
-                <main>
+                <main style={{"color":"white"}} >
                     <h1>Registration Page</h1> 
                     <form method="POST" action="/register">
                         <div style={{"marginLeft":"auto","marginRight":"auto","width":"20%"}} className="form_container">

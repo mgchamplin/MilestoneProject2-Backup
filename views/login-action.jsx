@@ -22,7 +22,7 @@ function take_login_action (user) {
     if (user_type === ADMIN || user_type === REG_USER)              // One of these just logged in
         return (
             <Default>
-                <main>
+                <main style={{"color":"white"}} >
                     <h1>{header} Login Page</h1> 
                     <form method="POST" action="/login/">
                         <div style={{"marginLeft":"auto","marginRight":"auto","width":"20%"}} className="form_container">
@@ -37,10 +37,10 @@ function take_login_action (user) {
                             <h1></h1>
                             <input className="btn btn-primary btn-space" type="submit" value="Log in" />
                         </div>
-                        <hr></hr>
-                        <div style={{"textAlign":"center","color":"red"}}>
+                        <br></br>
+                        <div style={{"textAlign":"center","color":"white"}}>
                             <h2 style={{"textDecoration":"none"}}>Not Registered?</h2>
-                            <a href="/register">Click Here To Register</a>
+                            <a style={{"color":"white"}} href="/register">Click Here To Register</a>
                         </div>
                     </form>
                 </main>
