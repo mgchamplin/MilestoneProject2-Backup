@@ -8,11 +8,8 @@ function get_all (data) {
     let sitesForRendering = data.sites.map((site,i) => {
       site.id = i;
 
-      if (i == 1) console.log("Reviews#" + site.reviews.length + "  TotalStars " + site.total_stars)
-      if (i == 1) console.log("AVERAGE = " + Math.round(site.total_stars / site.reviews.length))
-
       let average_rating = "";
-      for (let i=0; i<Math.round(site.total_stars / site.reviews.length); i++)
+      for (let i=0; i<site.ave_rating; i++)
           average_rating += '⭐'
 
       return (

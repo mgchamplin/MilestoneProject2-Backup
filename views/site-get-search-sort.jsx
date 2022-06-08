@@ -9,7 +9,7 @@ function search_sort_sites (data) {
     let sitesForRendering = data.sites.map((site,i) => {
       
       let average_rating = "";
-      for (let i=0; i<Math.round(site.total_stars / site.reviews.length); i++)
+      for (let i=0; i<site.ave_rating; i++)
           average_rating += '⭐'
 
       return (
@@ -28,7 +28,7 @@ function search_sort_sites (data) {
         </Card>
       )
     })
-    console.log("target = " + data.sort_target + " global sort type = " + gUser.current_sort_type_name)
+    console.log("target = " + data.sort_target)
 
     var name_sort;
     let name_sort_next  = 1;                            
@@ -84,6 +84,33 @@ function search_sort_sites (data) {
 
     gUser.current_sort_type_price = price_sort_next;
 
+    var num_reviews_sort;
+    let num_reviews_sort_next  = 1;                            
+
+    if (data.sort_target === "num_reviews")
+        if (gUser.current_sort_type_num_reviews == 0 || gUser.current_sort_type_num_reviews == 1)     // Just sorted ascending
+            {num_reviews_sort = "REVIEWS v"; num_reviews_sort_next = -1;}
+        else
+            {num_reviews_sort = "REVIEWS ^"; num_reviews_sort_next = 1;}
+    else
+    num_reviews_sort = "REVIEWS ^"
+
+    gUser.current_sort_type_num_reviews = num_reviews_sort_next;
+
+    var ave_rating_sort;
+    let ave_rating_sort_next  = 1;                            
+
+    if (data.sort_target === "ave_rating")
+        if (gUser.current_sort_type_ave_rating == 0 || gUser.current_sort_type_ave_rating == 1)     // Just sorted ascending
+            {ave_rating_sort = "RATINGS v"; ave_rating_sort_next = -1;}
+        else
+            {ave_rating_sort = "RATINGS ^"; ave_rating_sort_next = 1;}
+    else
+    ave_rating_sort = "RATINGS ^"
+
+    gUser.current_sort_type_ave_rating = ave_rating_sort_next;
+
+
 
     return (
       <Default>
@@ -97,9 +124,8 @@ function search_sort_sites (data) {
                     <a style={{"color":"white", "textDecoration":"none"}} className="col-sm-1" href={`/sort/state/${state_sort_next}`}>{state_sort}</a>
                     <a style={{"color":"white", "textDecoration":"none"}} className="col-sm-2" href={`/sort/city/${city_sort_next}`}>{city_sort}</a>
                     <a style={{"color":"white", "textDecoration":"none"}} className="col-sm-1" href={`/sort/price/${price_sort_next}`}>{price_sort}</a>
-
-                    <Card.Text style={{"marginBottom":"-1em"}} className="col-sm-1">REVIEWS ^</Card.Text>
-                    <Card.Text style={{"marginBottom":"-1em"}} className="col-sm-2">AVE RATING ^</Card.Text>
+                    <a style={{"color":"white", "textDecoration":"none"}} className="col-sm-1" href={`/sort/num_reviews/${num_reviews_sort_next}`}>{num_reviews_sort}</a>
+                    <a style={{"color":"white", "textDecoration":"none"}} className="col-sm-2" href={`/sort/ave_rating/${ave_rating_sort_next}`}>{ave_rating_sort}</a>
 
                 </Card.Body>
               {sitesForRendering}
